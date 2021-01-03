@@ -1,20 +1,25 @@
 const DbConnection    = require('../dbConnection/DbConnection.js')
-const User            = require('../entity/User.js')
+// const User            = require('../entity/User.js')
 
 
-class UserService{
-    addUser(user){
-      
-        DbConnection.getTable().insertOne(user, function(err, res) {
-            if(err){ 
-                console.log(err);
-                return;
-            }
+class UserService {
+    constructor() {
+        this.dbConn = new DbConnection();
+        this.type = "user";
+    }
+
+    addUser(user) {
+        this.dbConn.addRecord(this.type, user);
+    }
+
+    getUser(login, password) {
+        const filter = { login, password }
+        return this.dbConn.getRecords(this.type, filter)[0];
         
-            console.log(res.ops);
-            db.close();
-        });
-       
+    }
+
+    getAllUsers() {
+        return this.dbConn.getAllRecords(this.type);
     }
 }
 
