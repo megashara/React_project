@@ -8,7 +8,7 @@ class CarElementService {
     }
 
     async addCarElement(carElem) {
-        await this.dbConn.addRecord(this.type, carElem).then(function(result) {  
+        await this.dbConn.addRecord(this.type, carElem).then((result) => {  
             carElem = result;
         })
         .catch(function (err) {
@@ -19,7 +19,7 @@ class CarElementService {
 
     async getAllCarElements() {
         let carElements;
-         await this.dbConn.getAllRecords(this.type).then(function(result) {  
+         await this.dbConn.getAllRecords(this.type).then((result) => {  
             carElements = result;
         })
         .catch(function (err) {

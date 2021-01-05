@@ -1,7 +1,7 @@
 class CarElement {
-    constructor(name, color){
+    constructor(name, carModel){
         this.name = name;
-        this.color = color;
+        this.carModel = carModel;
     }
 }
 
