@@ -4,7 +4,7 @@ class Request {
         this.carElementMap = carElementMap;
         this.openDate = new Date();
         this.isClosed = false;
-        this.closeReason = '';
+        this.closeReason = ''; //Resolved, Removed
     }
 }
 

@@ -1,4 +1,5 @@
 const MongoClient = require('mongodb').MongoClient;
+var ObjectId = require('mongodb').ObjectID;
 
 class DbConnection {
     constructor() {
@@ -13,7 +14,7 @@ class DbConnection {
                 MongoClient.connect(this.url, (err, db) => {
                     if(err) throw err;
                     let dbo = db.db(this.databaseName);
-                    dbo.collection(type).insertOne(obj, function(err, data) {
+                    dbo.collection(type).insertOne(obj, (err, data) => {
                         err ? reject(err) : resolve(data);
                         db.close();
                     });
@@ -31,7 +32,7 @@ class DbConnection {
                     if (err) throw err;
                     let dbo = db.db(this.databaseName);
                     console.log("Filter:" + JSON.stringify(filter));
-                    dbo.collection(type).find(filter).toArray(function(err, data) {
+                    dbo.collection(type).find(filter).toArray((err, data) => {
                         console.log('Data: ' + JSON.stringify(data));
                         console.log('Error: ' + err);
                         err ? reject(err) : resolve(data);
@@ -44,14 +45,13 @@ class DbConnection {
         return result;
     }  
 
-
     async getAllRecords(type) {
         let promise = () => {
             return new Promise((resolve, reject) => {
                 MongoClient.connect(this.url, (err, db) => {
                     if (err) throw err;
                     let dbo = db.db(this.databaseName);
-                    dbo.collection(type).find({}).toArray(function(err, data) {
+                    dbo.collection(type).find({}).toArray((err, data) => {
                         err ? reject(err) : resolve(data);
                         db.close();
                     });
@@ -62,30 +62,42 @@ class DbConnection {
         return result;
     }   
 
-
-    //need to verify
-    updateRecord(type, condition, newValues) {
-        MongoClient.connect(this.url, (err, db) => {
-            if (err) throw err;
-             let dbo = db.db(this.databaseName);
-             console.log("condition: " +  JSON.stringify(condition) + " ;   New values: " +  JSON.stringify(newValues));
-             dbo.collection(type).updateOne(condition, { $set: newValues }, function(err, res) {
-                if (err) throw err;
-                db.close();
+    async updateRecord(type, condition, newValues) {
+        let promise = () => {
+            return new Promise((resolve, reject) => {
+                MongoClient.connect(this.url, (err, db) => {
+                    if (err) throw err;
+                    let dbo = db.db(this.databaseName);
+                    console.log("CONDITION: " +  JSON.stringify(condition) + " ;   New values: " +  JSON.stringify(newValues));
+                    dbo.collection(type).updateOne(condition, { $set: newValues }, (err, data) => {
+                        err ? reject(err) : resolve(data);
+                        db.close();
+                    });
+                });
             });
-        });
-    }
+        };
+        let result = await (promise());
+        return result.result.nModified > 0;
+   }
 
 
-    deleteRecord(type, id) {
-        MongoClient.connect(this.url, (err, db) => {
-            if (err) throw err;
-            let dbo = db.db(this.databaseName);
-            dbo.collection(type).deleteOne({ id }, function(err, res) {
-                if (err) throw err;
-                db.close();
+    async deleteRecord(type, id) {
+        let promise = () => {
+            return new Promise((resolve, reject) => {
+                const filter = { '_id' : ObjectId(id) }
+                MongoClient.connect(this.url, (err, db) => {
+                    if (err) throw err;
+                    let dbo = db.db(this.databaseName);
+                    dbo.collection(type).deleteOne( filter, (err, data) => {
+                        err ? reject(err) : resolve(data);
+                        db.close();
+                    });
+                });
             });
-        });
+        };
+        let result = await (promise());
+        console.log('DATABAS: ' + JSON.stringify(result.deletedCount));
+        return result.deletedCount > 0
     }    
 
 }

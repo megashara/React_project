@@ -6,6 +6,8 @@ const props = {
   port: 8000,
   userRouter: require('./router/UserRouter.js'),
   requestRouter: require('./router/RequestRouter.js'),
+  carElementRouter: require('./router/CarElementRouter.js'),
+  bidRouter: require('./router/BidRouter.js'),
 }
 
 app.listen(props.port, function () {
@@ -15,6 +17,8 @@ app.use(bodyParser.json());
 
 app.use('/user', props.userRouter.router); 
 app.use('/request', props.requestRouter.router); 
+app.use('/car_element', props.carElementRouter.router); 
+app.use('/bid', props.bidRouter.router); 
 
 
 // const express           = require('express');
