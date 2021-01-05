@@ -2,7 +2,6 @@ const DbConnection = require('../dbConnection/DbConnection.js')
 var ObjectId = require('mongodb').ObjectID;
 
 
-
 class RequestService {
     constructor() {
         this.dbConn = new DbConnection();

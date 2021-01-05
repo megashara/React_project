@@ -1,6 +1,4 @@
 const DbConnection = require('../dbConnection/DbConnection.js')
-// const User = require('../entity/User.js')
-
 
 class UserService {
     constructor() {
