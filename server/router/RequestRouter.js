@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const Request  = require('../entity/Request.js')
 const RequestService = require('../service/RequestService.js')
+var url = require('url');
 
 router.get('/', function (req, res) {
     new RequestService().getAllRequests().then(function(result) {  
@@ -21,10 +22,24 @@ router.get('/:id', function (req, res) {
 });
 
 router.post('/', function (req, res) {
-    console.log('I am here!');
     const request = new Request(req.body.userId, req.body.carElementMap);
     new RequestService().addRequest(request).then(function(result) {  
         res.status(201).send(result); 
+    });
+});
+
+router.delete('/:id', function (req, res) {
+    console.log('delete method');
+    const url_parts = url.parse(req.url, true);
+    const query = url_parts.query; 
+    console.log('params router: ' +req.params.id +  "   " + query.closeReason);
+    new RequestService().closeRequest(req.params.id, query.closeReason).then(function(result) { 
+        console.log('result router: ' + result);
+        if(!!result) { 
+            res.status(204).send(result); 
+        } else {
+            res.status(204).send('Request is already closed.'); 
+        }
     });
 });
 

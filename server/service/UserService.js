@@ -21,7 +21,7 @@ class UserService {
     async getUser(login, password) {
         let user;
         const filter = { login, password }
-        await this.dbConn.getRecords(this.type, filter).then(function(result) {
+        await this.dbConn.getRecords(this.type, filter).then((result) => {
             user = result.length > 0 ? result[0] : null;
         })
         .catch(function (err) {
@@ -32,7 +32,7 @@ class UserService {
 
     // async getAllUsers() {
     //     let records;
-    //      await this.dbConn.getAllRecords(this.type).then(function(result) {  
+    //      await this.dbConn.getAllRecords(this.type).then((result) => {  
     //         records = result;
     //     })
     //     .catch(function (err) {
