@@ -4,8 +4,10 @@ const Balance = require("../entity/Balance.js");
 const BalanceService = require("../service/BalanceService.js");
 var url = require("url");
 
-router.get("/:id", function (req, res) {
-  new BalanceService().getBalanceUserId(req.params.id).then(function (result) {
+router.get("/", function (req, res) {
+  const url_parts = url.parse(req.url, true);
+  const query = url_parts.query;
+  new BalanceService().getBalanceUserId(query.userId).then(function (result) {
     if (!!result) {
       res.status(200).send(result);
     } else {
@@ -14,7 +16,7 @@ router.get("/:id", function (req, res) {
   });
 });
 
-router.get("/", function (req, res) {
+router.patch("/", function (req, res) {
   const url_parts = url.parse(req.url, true);
   const query = url_parts.query;
   new BalanceService()
