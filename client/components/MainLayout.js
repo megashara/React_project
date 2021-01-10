@@ -1,6 +1,10 @@
 import Link from "next/link";
+import React from "react";
+import { signIn, signOut, useSession } from "next-auth/client";
 
 export function MainLayout({ children }) {
+  const [session, loading] = useSession();
+
   return (
     <>
       <div>
@@ -19,9 +23,21 @@ export function MainLayout({ children }) {
           </Link>
         </nav>
         <div className="">
-          <Link href="/login">
-            <a>login</a>
-          </Link>
+          {!session && (
+            <>
+              Not signed in <br />
+              <button onClick={signIn}>Sign in</button>
+              <Link href="/singUp">
+                <a>Sing Up</a>
+              </Link>
+            </>
+          )}
+          {session && (
+            <>
+              Signed in as {session.user.login} <br />
+              <button onClick={signOut}>Sign out</button>
+            </>
+          )}
         </div>
       </div>
 

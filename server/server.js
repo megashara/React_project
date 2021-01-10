@@ -2,6 +2,11 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 
+var corsOptions = {
+  origin: "http://localhost:3000/",
+  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
+
 const props = {
   port: 8000,
   userRouter: require("./router/UserRouter.js"),
@@ -14,6 +19,13 @@ const props = {
 
 app.listen(props.port, function () {
   console.log("app running on port " + props.port);
+});
+
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", req.headers.origin);
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Headers", "origin, content-type, accept");
+  next();
 });
 
 app.use(bodyParser.json());
