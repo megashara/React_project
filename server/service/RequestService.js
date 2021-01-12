@@ -1,5 +1,6 @@
 const DbConnection = require("../dbConnection/DbConnection.js");
 var ObjectId = require("mongodb").ObjectID;
+var UserService = require("./UserService");
 
 class RequestService {
   constructor() {
@@ -71,6 +72,31 @@ class RequestService {
       .getAllRecords(this.type)
       .then((result) => {
         records = result;
+      })
+      .catch(function (err) {
+        console.warn(err);
+      });
+    return records;
+  }
+
+  async addUsers(records) {
+    let userService = new UserService();
+    for (let item of records) {
+      await userService.getUserById(item.userId).then((result) => {
+        item.user = result;
+      });
+    }
+    return records;
+  }
+
+  async getOpenRequest() {
+    let records;
+    const filter = { isClosed: false };
+    await this.dbConn
+      .getRecords(this.type, filter)
+      .then((result) => {
+        records = result;
+        records = this.addUsers(records);
       })
       .catch(function (err) {
         console.warn(err);

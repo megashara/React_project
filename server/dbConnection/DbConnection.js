@@ -40,13 +40,13 @@ class DbConnection {
         MongoClient.connect(this.url, (err, db) => {
           if (err) throw err;
           let dbo = db.db(this.databaseName);
-          console.log("Filter:" + JSON.stringify(filter));
+          // console.log("Filter:" + JSON.stringify(filter));
           dbo
             .collection(type)
             .find(filter)
             .toArray((err, data) => {
-              console.log("Data: " + JSON.stringify(data));
-              console.log("Error: " + err);
+              // console.log("Data: " + JSON.stringify(data));
+              //console.log("Error: " + err);
               err ? reject(err) : resolve(data);
               db.close();
             });
