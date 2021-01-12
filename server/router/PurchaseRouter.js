@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Purchase = require("../entity/Purchase.js");
 const PurchaseService = require("../service/PurchaseService.js");
-var url = require("url");
+const url = require("url");
 
 router.post("/", function (req, res) {
   const purchase = new Purchase(req.body.requestId, req.body.bidMap);

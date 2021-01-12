@@ -1,5 +1,5 @@
 const DbConnection = require("../dbConnection/DbConnection.js");
-var ObjectId = require("mongodb").ObjectID;
+const ObjectId = require("mongodb").ObjectID;
 
 class PurchaseService {
   constructor() {

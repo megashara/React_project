@@ -51,7 +51,6 @@ class OpenRequestTable extends React.Component {
       .catch(function (error) {
         console.log(error);
       });
-    //return openRequests;
   }
 
   getOpenRequests = () => {
@@ -77,13 +76,24 @@ class OpenRequestTable extends React.Component {
     console.log(requests);
 
     return (
-      <table className="table">
-        <thead></thead>
+      <table className="table table-striped">
+        <thead>
+          <tr>
+            <th>User Name</th>
+            <th>Car Elements</th>
+            <th>Open Date</th>
+          </tr>
+        </thead>
         <tbody>
-          {Object.keys(requests).map((item) => (
-            <tr key={requests[item]._id}>
-              <td>{requests[item].user.login}</td>
-              <td>{requests[item].user.login}</td>
+          {Object.values(requests).map(request => (
+            <tr key={request._id}>
+              <td>{request.user.login}</td>
+                <td>
+                  {Object.values(request.carElementMap)
+                    .map(el => (` ${el.carElement.name} - ${el.count}`))
+                    .join()}
+                </td>
+              <td>{request.openDate}</td>
             </tr>
           ))}
         </tbody>

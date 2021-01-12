@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User  = require('../entity/User.js')
 const UserService = require('../service/UserService.js')
-var url = require('url');
+const url = require('url');
 
 
 router.post('/', function (req, res) {

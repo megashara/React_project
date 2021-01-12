@@ -1,5 +1,5 @@
 const MongoClient = require("mongodb").MongoClient;
-var ObjectId = require("mongodb").ObjectID;
+const ObjectId = require("mongodb").ObjectID;
 
 class DbConnection {
   constructor() {

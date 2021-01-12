@@ -9,7 +9,7 @@ export function MainLayout({ children }) {
   return (
     <>
       <div className="container">
-        <div className="row  align-center justify-content-between">
+        <div className="row  align-center justify-content-between" >
           <nav className="col-sm-12 col-md-7 d-flex justify-content-between">
             <Link href="/">
               <a className="btn btn-outline-success">Home</a>

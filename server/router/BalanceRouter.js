@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Balance = require("../entity/Balance.js");
 const BalanceService = require("../service/BalanceService.js");
-var url = require("url");
+const url = require("url");
 
 router.get("/", function (req, res) {
   const url_parts = url.parse(req.url, true);

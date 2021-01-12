@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Bid  = require('../entity/Bid.js')
 const BidService = require('../service/BidService.js')
-var url = require('url');
+const url = require('url');
 
 
 router.post('/', function (req, res) {

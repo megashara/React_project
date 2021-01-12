@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Request = require("../entity/Request.js");
 const RequestService = require("../service/RequestService.js");
-var url = require("url");
+const url = require("url");
 
 router.get("/", function (req, res) {
   const url_parts = url.parse(req.url, true);

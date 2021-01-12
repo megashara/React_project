@@ -1,6 +1,7 @@
 const DbConnection = require("../dbConnection/DbConnection.js");
-var ObjectId = require("mongodb").ObjectID;
-var UserService = require("./UserService");
+const ObjectId = require("mongodb").ObjectID;
+const UserService = require("./UserService");
+const CarElementService = require("./CarElementService");
 
 class RequestService {
   constructor() {
@@ -36,7 +37,7 @@ class RequestService {
 
   async closeRequest(id, closeReason) {
     let request;
-    await this.getRequest(id).then(async (result) => {
+    await this.getRequest(id).then(async result => {
       if (!result) {
         return null;
       }
@@ -70,7 +71,7 @@ class RequestService {
     let records;
     await this.dbConn
       .getAllRecords(this.type)
-      .then((result) => {
+      .then(result => {
         records = result;
       })
       .catch(function (err) {
@@ -79,12 +80,18 @@ class RequestService {
     return records;
   }
 
-  async addUsers(records) {
+  async populate(records) {
     let userService = new UserService();
+    let carElemService = new CarElementService();
     for (let item of records) {
-      await userService.getUserById(item.userId).then((result) => {
+      await userService.getUserById(item.userId).then(result => {
         item.user = result;
       });
+      for(let mapEl of item.carElementMap) {
+        await carElemService.getCarElementById(mapEl.carElementId).then(result => {
+          mapEl.carElement = result;
+        });
+      }
     }
     return records;
   }
@@ -94,9 +101,8 @@ class RequestService {
     const filter = { isClosed: false };
     await this.dbConn
       .getRecords(this.type, filter)
-      .then((result) => {
-        records = result;
-        records = this.addUsers(records);
+      .then(result => {
+        records = this.populate(result);
       })
       .catch(function (err) {
         console.warn(err);
