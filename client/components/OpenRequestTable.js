@@ -94,6 +94,7 @@ class OpenRequestTable extends React.Component {
                     .join()}
                 </td>
               <td>{request.openDate}</td>
+              <td><Link href=""><a>More info</a></Link></td>
             </tr>
           ))}
         </tbody>

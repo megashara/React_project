@@ -1,11 +1,11 @@
-import { MainLayout } from "../components/MainLayout";
+import { MainLayout } from "./MainLayout";
 import FetchService from "../services/FetchService.js";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useState } from "react";
 import axios from "axios";
 
-export default function SingUp() {
+export default function SignUp() {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
 
@@ -14,14 +14,12 @@ export default function SingUp() {
   }
 
   async function handleSubmit(cretation) {
-    console.log("1");
     await axios
       .post(`${process.env.API_URL}/user`, {
         login: cretation.login,
         password: cretation.password,
       })
       .then(function (response) {
-        console.log(response);
         return response;
       })
       .catch(function (error) {
@@ -38,8 +36,9 @@ export default function SingUp() {
   };
 
   return (
-    <MainLayout>
-      <h1>Registration page</h1>
+    <div className="popup-registration" 
+      style={{position: 'absolute', width: '400px', top: '100px', left:'50%', 'marginLeft': '-200px', 'zIndex': '10'}}>
+      <h3>Registration</h3>
       <div className="Login">
         <Form onSubmit={onLoginSubmit}>
           <Form.Group size="lg" controlId="login">
@@ -48,7 +47,7 @@ export default function SingUp() {
               autoFocus
               type="text"
               value={login}
-              onChange={(e) => setLogin(e.target.value)}
+              onChange={e => setLogin(e.target.value)}
             />
           </Form.Group>
           <Form.Group size="lg" controlId="password">
@@ -56,14 +55,14 @@ export default function SingUp() {
             <Form.Control
               type="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={e => setPassword(e.target.value)}
             />
           </Form.Group>
           <Button block size="lg" type="submit" disabled={!validateForm()}>
-            Sign UP
+            Sign Up
           </Button>
         </Form>
       </div>
-    </MainLayout>
+    </div>
   );
 }
