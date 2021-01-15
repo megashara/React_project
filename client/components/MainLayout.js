@@ -2,16 +2,15 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { signIn, signOut, useSession } from "next-auth/client";
 import SignUp from "./SignUp.js";
+import SignIn from "./SignIn.js";
 import { Button, Modal } from 'react-bootstrap';
 import "bootstrap/dist/css/bootstrap.min.css";
+import {useSessionHook} from "../hooks/useSessionHook";
 
 export function MainLayout({ children }) {
   const [session, loading] = useSession();
 
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  console.log('main = ' + useSessionHook());
 
   return (
     <>
@@ -35,11 +34,9 @@ export function MainLayout({ children }) {
           <div className="col-sm-12 col-md-5 d-flex justify-content-end">
             {!session && (
               <>
-                <Button onClick={signIn} variant="light">Sign in</Button>
-                <Button variant="light" onClick={handleShow} className="ml-3">Sign Up</Button>
-                {/* <Link href="/signUp">
-                  <a className="btn btn-light ml-3">Sing Up</a>
-                </Link> */}
+                {/* <Button onClick={signIn} variant="light">Sign in</Button> */}
+                <SignIn />
+                <SignUp />
               </>
             )}
             {session && (
@@ -52,12 +49,6 @@ export function MainLayout({ children }) {
         </div>
       </div>
       </header>
-      <div className="modal fade" id="sign-up-form">
-        <Modal show={show} onHide={handleClose}>
-          <SignUp />
-        </Modal>
-      </div>
-
       <main>{children}</main>
     </>
   );

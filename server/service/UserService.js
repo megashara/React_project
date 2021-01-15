@@ -8,6 +8,13 @@ class UserService {
   }
 
   async addUser(user) {
+    let hasUser = false;
+    await this.hasUser(user.login).then(function(result) {  
+      hasUser = result;
+    });
+    if(hasUser){
+      return null
+    }
     await this.dbConn
       .addRecord(this.type, user)
       .then(function (result) {
@@ -45,6 +52,22 @@ class UserService {
         console.warn(err);
       });
     return user;
+  }
+
+  async hasUser(login) {
+    let isExist;
+    const filter = { login };
+    await this.dbConn
+      .getRecords(this.type, filter)
+      .then((result) => {
+        if(result.length != 0){
+          isExist = true;
+        }
+      })
+      .catch(function (err) {
+        isExist = false;
+      });
+    return isExist;
   }
 
   // async getAllUsers() {

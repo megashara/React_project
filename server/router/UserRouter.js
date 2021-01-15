@@ -8,7 +8,11 @@ const url = require('url');
 router.post('/', function (req, res) {
     const user = new User(req.body.login, req.body.password);
     new UserService().addUser(user).then(function(result) {  
-        res.status(201).send(result); 
+        if(!!result){
+            res.status(201).send(result); 
+        } else {
+            res.status(409).send('User already exist'); 
+        }
     });
 });
 

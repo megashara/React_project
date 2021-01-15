@@ -1,38 +1,40 @@
 import { Modal, Form , Button } from 'react-bootstrap';
-import { useState } from "react";
+import React, { useState, useEffect } from 'react';
 import axios from "axios";
+import {useSessionHook} from "../hooks/useSessionHook";
 
-export default function SignUp() {
+export default function SignIn() {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
-  const [showThanks, setShowThanks] = useState(false);
   const [showError, setShowError] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const handleThanksClose = () => setShowThanks(false);
-  const handleThanksShow = () => setShowThanks(true);
   const handleErrorClose = () => setShowError(false);
   const handleErrorShow = () => setShowError(true);
-
+  const [recipientID, setRecipientID] = useState("");
+  let sessionHook = useSessionHook(recipientID);
   function validateForm() {
     return login.length > 0 && password.length > 0;
   }
 
-  async function handleSubmit(cretation) {
-    let res;
+  async function handleSubmit(credentials) {
+    let user;
+    console.log(credentials);
     await axios
-      .post(`${process.env.API_URL}/user`, {
-        login: cretation.login,
-        password: cretation.password,
+      .get(`${process.env.API_URL}/user`, {
+        params: {
+          login: credentials.login,
+          password: credentials.password,
+        },
       })
       .then(function (response) {
-        res = response;
+        user = response;
       })
       .catch(function (error) {
         console.log(error);
       });
-      return res;
+    return Promise.resolve(user ? user : null);
   }
 
   const onLoginSubmit = async e => {
@@ -42,15 +44,13 @@ export default function SignUp() {
      if(!done){
       handleErrorShow();
       document.getElementById('login').style.borderColor = "red";
+      document.getElementById('password').style.borderColor = "red";
      }else{
+      setRecipientID(login);
       handleClose();
-      handleThanksShow();
       handleErrorClose();
       setLogin("");
       setPassword("");
-      setTimeout(() => {
-       handleThanksClose();
-      }, 1500);
      }
     }
 
@@ -64,7 +64,7 @@ export default function SignUp() {
         <Modal show={show} onHide={handleClose} closeButton>
         <div className="popup-registration">
           <Modal.Header closeButton>
-            <Modal.Title>Registration</Modal.Title>
+            <Modal.Title>Sign in</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form onSubmit={onLoginSubmit}>
@@ -90,18 +90,13 @@ export default function SignUp() {
                 />
               </Form.Group>
               <Button block size="lg" type="submit" disabled={!validateForm()}>
-                Sign Up
+                Sign in
               </Button>
             </Form>
           </Modal.Body>
         </div>
         </Modal>
       </div>
-      <Modal show={showThanks} onHide={handleThanksClose} backdrop="static" keyboard={false}>
-        <Modal.Body>
-          Thanks for registration!
-        </Modal.Body>
-      </Modal>
     </>
   );
 }

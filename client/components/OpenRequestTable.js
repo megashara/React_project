@@ -24,7 +24,6 @@ class OpenRequestTable extends React.Component {
         },
       })
       .then(function (response) {
-        console.log(response);
         openRequests = response;
       })
       .catch(function (error) {
@@ -42,7 +41,6 @@ class OpenRequestTable extends React.Component {
         },
       })
       .then((response) => {
-        console.log(response);
         openRequests = response;
         this.setState({
           requests: response.data,
@@ -62,7 +60,6 @@ class OpenRequestTable extends React.Component {
         },
       })
       .then(function (response) {
-        console.log(response);
         openRequests = response;
       })
       .catch(function (error) {
@@ -73,7 +70,6 @@ class OpenRequestTable extends React.Component {
 
   render() {
     const { requests } = this.state;
-    console.log(requests);
 
     return (
       <table className="table table-striped">

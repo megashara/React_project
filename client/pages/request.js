@@ -18,6 +18,5 @@ export default function Request({ requests }) {
 Request.getInitialProps = async (ctx) => {
   const res = await fetch(`${process.env.API_URL}/request`);
   const json = await res.json();
-  console.log(json);
   return { requests: json };
 };

@@ -1,7 +1,6 @@
 import NextAuth from "next-auth";
 import Providers from "next-auth/providers";
 import axios from "axios";
-import FetchService from "../../../services/FetchService";
 
 const options = {
   providers: [
