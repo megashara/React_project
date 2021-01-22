@@ -1,5 +1,7 @@
 const DbConnection = require("../dbConnection/DbConnection.js");
 const ObjectId = require("mongodb").ObjectID;
+const UserService = require("./UserService");
+const CarElementService = require("./CarElementService");
 
 class BidService {
   constructor() {
@@ -17,6 +19,20 @@ class BidService {
         console.warn(err);
       });
     return bid;
+  }
+
+  async populate(records) {
+    let userService = new UserService();
+    let carElemService = new CarElementService();
+    for (let item of records) {
+      await userService.getUserById(item.userId).then(result => {
+        item.user = result;
+      });
+      await carElemService.getCarElementById(item.carElementId).then(result => {
+        item.carElement = result;
+      });
+    }
+    return records;
   }
 
   async getBidsByUserId(userId) {
@@ -39,7 +55,8 @@ class BidService {
     await this.dbConn
       .getRecords(this.type, filter)
       .then((result) => {
-        bids = result;
+        bids = this.populate(result);
+        console.log(bids)
       })
       .catch(function (err) {
         console.warn(err);

@@ -58,6 +58,7 @@ class OpenRequestTable extends React.Component {
         params: {
           onlyOpen: true,
         },
+        withCredentials: true,
       })
       .then(function (response) {
         openRequests = response;
@@ -78,6 +79,7 @@ class OpenRequestTable extends React.Component {
             <th>User Name</th>
             <th>Car Elements</th>
             <th>Open Date</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -90,7 +92,7 @@ class OpenRequestTable extends React.Component {
                     .join()}
                 </td>
               <td>{request.openDate}</td>
-              <td><Link href=""><a>More info</a></Link></td>
+              <td><Link href={'/request/'+request._id}><a>More info</a></Link></td>
             </tr>
           ))}
         </tbody>
@@ -102,5 +104,6 @@ class OpenRequestTable extends React.Component {
 OpenRequestTable.displayName = "OpenRequestTable";
 
 OpenRequestTable.propTypes = propTypes;
+
 
 export default OpenRequestTable;

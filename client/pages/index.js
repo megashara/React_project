@@ -2,11 +2,11 @@ import Head from "next/head";
 import { MainLayout } from "../components/MainLayout";
 import OpenRequestTable from "../components/OpenRequestTable";
 
+
 export default function Home({ requests }) {
   return (
     <MainLayout>
-      <br/>
-      <div className="container">
+      <div className="container mt-4">
         <h3>Open Requests</h3>
         <OpenRequestTable />
       </div>
@@ -15,7 +15,7 @@ export default function Home({ requests }) {
 }
 
 Request.getInitialProps = async (ctx) => {
-  const res = await fetch(`${process.env.API_URL}/request`);
+  const res = await fetch(`${process.env.API_URL}/request?id=`);
   const json = await res.json();
   return { requests: json };
 };

@@ -5,12 +5,12 @@ import SignUp from "./SignUp.js";
 import SignIn from "./SignIn.js";
 import { Button, Modal } from 'react-bootstrap';
 import "bootstrap/dist/css/bootstrap.min.css";
-import {useSessionHook} from "../hooks/useSessionHook";
+import {useSessionHook} from "./UserProfile";
+import UserProfile from './UserProfile';
 
 export function MainLayout({ children }) {
-  const [session, loading] = useSession();
 
-  console.log('main = ' + useSessionHook());
+  const [session, loading] = useSession();
 
   return (
     <>

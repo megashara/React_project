@@ -1,10 +1,15 @@
 import { Modal, Form , Button } from 'react-bootstrap';
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
-import {useSessionHook} from "../hooks/useSessionHook";
+import {useSessionHook} from "./UserProfile";
+import LocalStorageService from "./LocalStorageService";
+import { applySession } from 'next-session';
+import UserProfile from './UserProfile';
+
 
 export default function SignIn() {
   const [login, setLogin] = useState("");
+  const [login2, setLogin2] = useState("");
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
   const [showError, setShowError] = useState(false);
@@ -12,8 +17,6 @@ export default function SignIn() {
   const handleShow = () => setShow(true);
   const handleErrorClose = () => setShowError(false);
   const handleErrorShow = () => setShowError(true);
-  const [recipientID, setRecipientID] = useState("");
-  let sessionHook = useSessionHook(recipientID);
   function validateForm() {
     return login.length > 0 && password.length > 0;
   }
@@ -46,20 +49,21 @@ export default function SignIn() {
       document.getElementById('login').style.borderColor = "red";
       document.getElementById('password').style.borderColor = "red";
      }else{
-      setRecipientID(login);
       handleClose();
       handleErrorClose();
       setLogin("");
       setPassword("");
+      new UserProfile().setName("Some Guy");
+      setLogin2(new UserProfile().getName());
      }
     }
-
     
   };
 
   return (
     <>
-      <Button variant="light" onClick={handleShow} className="ml-3">Sign Up</Button>
+      {login2}
+      <Button variant="light" onClick={handleShow} className="ml-3">Sign In</Button>
       <div className="modal fade" id="sign-up-form">
         <Modal show={show} onHide={handleClose} closeButton>
         <div className="popup-registration">

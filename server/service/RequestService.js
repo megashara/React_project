@@ -23,16 +23,16 @@ class RequestService {
 
   async getRequest(id) {
     const filter = { _id: ObjectId(id) };
-    let request;
+    let requests;
     await this.dbConn
       .getRecords(this.type, filter)
       .then((result) => {
-        request = !!result ? result[0] : result;
+        requests = this.populate(result);
       })
       .catch(function (err) {
         console.warn(err);
       });
-    return request;
+    return requests;
   }
 
   async closeRequest(id, closeReason) {
