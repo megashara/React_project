@@ -6,6 +6,7 @@ const url = require('url');
 
 
 router.post('/', function (req, res) {
+    console.log(req.body.carElementId, req.body.requestId )
     const bid = new Bid(req.body.carElementId, req.body.price, req.body.userId, req.body.requestId);
     new BidService().addBid(bid).then(function(result) {  
         res.status(201).send(result); 

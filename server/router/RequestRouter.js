@@ -6,12 +6,6 @@ const url = require("url");
 var session = require('express-session')
 
 router.get("/", function (req, res) {
-  console.log("request")
-  if(!req.session.key){
-    console.log(req.session)
-  }else{
-    console.log(req.session)
-  }
   const url_parts = url.parse(req.url, true);
   const query = url_parts.query;
   if (query.onlyOpen) {

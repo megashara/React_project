@@ -4,9 +4,9 @@ const User  = require('../entity/User.js')
 const UserService = require('../service/UserService.js')
 const url = require('url');
 var session = require('express-session')
-redisStorage = require('connect-redis')(session),
-redis = require('redis'),
-client = redis.createClient()
+//redisStorage = require('connect-redis')(session),
+//redis = require('redis'),
+//client = redis.createClient()
 
 router.post('/', function (req, res) {
     const user = new User(req.body.login, req.body.password);

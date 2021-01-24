@@ -3,9 +3,9 @@ const app = express();
 const bodyParser = require("body-parser");
 var session = require('express-session')
 var cookieParser = require('cookie-parser');
-redisStorage = require('connect-redis')(session),
-redis = require('redis'),
-client = redis.createClient()
+//redisStorage = require('connect-redis')(session),
+//redis = require('redis'),
+//client = redis.createClient()
 const host = '127.0.0.1'
 
 const corsOptions = {
@@ -36,19 +36,19 @@ app.use(function (req, res, next) {
 
 app.use(cookieParser());
 
-app.use(session({
-  store: new redisStorage({
-    host: host,
-    port: 6379,
-    client: client,
-  }),
-  secret: "userName",
-  saveUninitialized: false,
-  resave: false,
-  cookie: {
-    maxAge: 1000 * 60 * 60 * 24 * 365 * 10, // 10 years
-  },
-}))
+// app.use(session({
+//   store: new redisStorage({
+//     host: host,
+//     port: 6379,
+//     client: client,
+//   }),
+//   secret: "userName",
+//   saveUninitialized: false,
+//   resave: false,
+//   cookie: {
+//     maxAge: 1000 * 60 * 60 * 24 * 365 * 10, // 10 years
+//   },
+// }))
 
 
 
